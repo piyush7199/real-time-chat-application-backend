@@ -14,7 +14,7 @@ export const protect = asyncHandler(async (req, res, next) => {
       req.user = await User.findById(decoded.id).select("-password");
       next();
     } catch (error) {
-      return res.status(401).json({ msg: "Not Authorized, token failed" });
+      return res.status(500).json({ msg: "Error while authorizating token" });
     }
   } else {
     return res.status(401).json({ msg: "Not Authorized, token failed" });

@@ -1,18 +1,18 @@
 import asyncHandler from "express-async-handler";
 import { Chat } from "../models/chatModel.js";
 import { INTERNAL_SERVER_ERROR, generatedToken } from "../utility/utility.js";
+import mongoose from "mongoose";
 
 export const createGroup = asyncHandler(async (req, res) => {
   if (!req.body.users || !req.body.name) {
     return res.status(400).json({ msg: "Please fill all the fields" });
   }
-
-  var users = req.body.users.split(",");
-
+  var users = JSON.parse(req.body.users);
   if (users.length < 2) {
-    return res.status(400).json({ msg: "More than 2 users required." });
+    return res
+      .status(400)
+      .send("More than 2 users are required to form a group chat");
   }
-  users.push(req.user);
   try {
     const groupChat = await Chat.create({
       chatName: req.body.name,
@@ -24,7 +24,6 @@ export const createGroup = asyncHandler(async (req, res) => {
     const fullChat = await Chat.findOne({ _id: groupChat._id })
       .populate("users", "-password")
       .populate("groupAdmin", "-password");
-
     return res.status(200).json(fullChat);
   } catch (error) {
     return res.status(400).json({ msg: error.message });
