@@ -7,6 +7,7 @@ import { connectDB } from "./database/connectDb.js";
 import userRoutes from "./routes/userRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import groupRoutes from "./routes/groupRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 const app = express();
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/group", groupRoutes);
+app.use("/api/message", messageRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

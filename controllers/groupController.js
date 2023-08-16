@@ -1,7 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { Chat } from "../models/chatModel.js";
-import { INTERNAL_SERVER_ERROR, generatedToken } from "../utility/utility.js";
-import mongoose from "mongoose";
+import { INTERNAL_SERVER_ERROR } from "../utility/utility.js";
 
 export const createGroup = asyncHandler(async (req, res) => {
   if (!req.body.users || !req.body.name) {
